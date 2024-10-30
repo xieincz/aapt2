@@ -66,11 +66,15 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/termux/termux-elf-cleaner.git src/third_party/elf-cleaner
           cd src/third_party/elf-cleaner || exit 1
-          autoreconf -vfi
-          ./configure
-          make -j$(nproc)
-          make check
-          sudo make install
+          #autoreconf -vfi
+          #./configure
+          #make -j$(nproc)
+          #make check
+          #sudo make install
+          cmake . -Bbuild -GNinja
+          ninja -C build/
+          ninja -C build/ test
+          sudo cmake --install build/
 
       - name: Grant execute permission for build.sh
         run: chmod +x build.sh
